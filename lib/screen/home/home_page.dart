@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../components/category_component.dart';
 import '../../components/home_component.dart';
 import '../../components/spend_component.dart';
-import '../../controller/navigation_cotroller.dart';
+import '../../controller/navigation_controller.dart';
 
 class HomePage extends StatelessWidget {
   final NavigationController controller = Get.put(NavigationController());
