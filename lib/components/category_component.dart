@@ -1,9 +1,15 @@
 import 'package:budget_tracker_app/controller/category_controller.dart';
+import 'package:budget_tracker_app/helper/db_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 List<String> categoryImages = [
+  "assets/images/category/utilities.png",
+  "assets/images/category/rent.png",
   "assets/images/category/bill.png",
+  "assets/images/category/savings.png",
+  "assets/images/category/education.png",
   "assets/images/category/cash.png",
   "assets/images/category/communication.png",
   "assets/images/category/deposit.png",
@@ -110,23 +116,44 @@ class CategoryComponent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FloatingActionButton.extended(
-                onPressed: () {
+                backgroundColor: const Color(0xffb1f2ee),
+                onPressed: () async {
                   if (formKey.currentState!.validate() &&
                       controller.categoryIndex != null) {
-                    Get.snackbar('Category Added',
-                        ' ${categoryController.text} added successfully',
-                        snackPosition: SnackPosition.BOTTOM,
-                        colorText: Colors.white,
-                        backgroundColor: Colors.green);
+                    String name = categoryController.text;
+                    String imagePath =
+                        categoryImages[controller.categoryIndex!];
+                    ByteData data = await rootBundle.load(imagePath);
+                    Uint8List image = data.buffer.asUint8List();
+                    int? res = await DBHelper.dbHelper
+                        .insertData(name: name, image: image);
+                    if (res != null) {
+                      Get.snackbar('Category Added',
+                          ' ${categoryController.text} added successfully',
+                          snackPosition: SnackPosition.BOTTOM,
+                          colorText: Colors.white,
+                          backgroundColor: Colors.green);
+                    } else {
+                      Get.snackbar('Error', 'Insertion failed',
+                          snackPosition: SnackPosition.BOTTOM,
+                          colorText: Colors.white,
+                          backgroundColor: Colors.red);
+                    }
                   } else {
                     Get.snackbar('Error', 'Please enter a category',
                         snackPosition: SnackPosition.BOTTOM,
                         colorText: Colors.white,
                         backgroundColor: Colors.red);
                   }
+                  categoryController.clear();
+                  controller.resetCategoryIndex();
                 },
-                label: const Text('Done'),
-                icon: const Icon(Icons.done),
+                label:
+                    const Text('Done', style: TextStyle(color: Colors.black)),
+                icon: const Icon(
+                  Icons.done,
+                  color: Colors.black,
+                ),
               ),
             ],
           )

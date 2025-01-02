@@ -7,4 +7,9 @@ class CategoryController extends GetxController {
     categoryIndex = index;
     update();
   }
+
+  void resetCategoryIndex() {
+    categoryIndex = null;
+    update();
+  }
 }
