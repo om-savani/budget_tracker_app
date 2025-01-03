@@ -9,9 +9,9 @@ class CategoryModel {
 
   factory CategoryModel.fromMap({required Map<String, dynamic> map}) {
     return CategoryModel(
-      id: map['id'],
-      name: map['name'],
-      image: map['image'],
+      id: map['category_id'],
+      name: map['category_name'],
+      image: map['category_image'],
     );
   }
 }
