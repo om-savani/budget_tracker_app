@@ -1,3 +1,4 @@
+import 'package:budget_tracker_app/model/category_model.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:sqflite/sqflite.dart';
@@ -49,10 +50,32 @@ class DBHelper {
         "INSERT INTO $tableName(${this.name}, ${this.image}) VALUES(?, ?);";
     List values = [name, image];
     try {
-      return await database?.rawInsert(query, values);
+      int? result = await database?.rawInsert(query, values);
+      logger.i("Insert Success: ID $result");
+      return result;
     } catch (e) {
       logger.e("Insert failed: $e");
       return null;
     }
+  }
+
+  //get all data
+  Future<List<CategoryModel>> getAllData() async {
+    await initDatabase();
+    String query = "SELECT * FROM $tableName";
+    List<Map<String, dynamic>> result = await database?.rawQuery(query) ?? [];
+    return result
+        .map((Map<String, dynamic> e) => CategoryModel.fromMap(map: e))
+        .toList();
+  }
+
+  //Search Category
+  Future<List<CategoryModel>> searchCategory({required String search}) async {
+    await initDatabase();
+    String query = "SELECT * FROM $tableName WHERE $name LIKE '%$search%'";
+    List<Map<String, dynamic>> result = await database?.rawQuery(query) ?? [];
+    return result
+        .map((Map<String, dynamic> e) => CategoryModel.fromMap(map: e))
+        .toList();
   }
 }

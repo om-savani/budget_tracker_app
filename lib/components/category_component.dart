@@ -125,20 +125,7 @@ class CategoryComponent extends StatelessWidget {
                         categoryImages[controller.categoryIndex!];
                     ByteData data = await rootBundle.load(imagePath);
                     Uint8List image = data.buffer.asUint8List();
-                    int? res = await DBHelper.dbHelper
-                        .insertData(name: name, image: image);
-                    if (res != null) {
-                      Get.snackbar('Category Added',
-                          ' ${categoryController.text} added successfully',
-                          snackPosition: SnackPosition.BOTTOM,
-                          colorText: Colors.white,
-                          backgroundColor: Colors.green);
-                    } else {
-                      Get.snackbar('Error', 'Insertion failed',
-                          snackPosition: SnackPosition.BOTTOM,
-                          colorText: Colors.white,
-                          backgroundColor: Colors.red);
-                    }
+                    controller.saveCategory(name: name, image: image);
                   } else {
                     Get.snackbar('Error', 'Please enter a category',
                         snackPosition: SnackPosition.BOTTOM,
