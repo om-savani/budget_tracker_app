@@ -25,9 +25,10 @@ class CategoryController extends GetxController {
 
   Future<void> saveCategory(
       {required String name, required Uint8List image}) async {
-    int? res = await DBHelper.dbHelper.insertData(name: name, image: image);
+    int? res = await DBHelper.dbHelper
+        .insertData(name: name, image: image, imageId: categoryIndex!);
     if (res != null) {
-      Get.snackbar('Category Added', ' ${name} added successfully',
+      Get.snackbar('Category Added', ' $name added successfully',
           snackPosition: SnackPosition.BOTTOM,
           colorText: Colors.white,
           backgroundColor: Colors.green);
@@ -37,6 +38,7 @@ class CategoryController extends GetxController {
           colorText: Colors.white,
           backgroundColor: Colors.red);
     }
+    update();
   }
 
   void getCategoryData() async {
@@ -46,7 +48,42 @@ class CategoryController extends GetxController {
 
   void searchCategory({required String search}) async {
     categoryList = DBHelper.dbHelper.searchCategory(search: search);
-    print("==================$categoryList");
+    update();
+  }
+
+  //update category
+  Future<void> updateCategory({required CategoryModel model}) async {
+    int? res = await DBHelper.dbHelper.updateCategory(model: model);
+    if (res != null) {
+      getCategoryData();
+      Get.snackbar('Category Updated', 'Category updated successfully',
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.green);
+    } else {
+      Get.snackbar('Error', 'Update failed',
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.red);
+    }
+    update();
+  }
+
+  //delete category
+  Future<void> deleteCategory({required int id}) async {
+    int? res = await DBHelper.dbHelper.deleteCategory(id: id);
+    if (res != null) {
+      getCategoryData();
+      Get.snackbar('Category Deleted', 'Category deleted successfully',
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.green);
+    } else {
+      Get.snackbar('Error', 'Deletion failed',
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.red);
+    }
     update();
   }
 }

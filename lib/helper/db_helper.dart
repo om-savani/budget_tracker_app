@@ -13,6 +13,7 @@ class DBHelper {
   String tableName = 'category';
   String name = 'category_name';
   String image = 'category_image';
+  String imageId = 'category_image_id';
 
   // create database
   Future<void> initDatabase() async {
@@ -27,7 +28,8 @@ class DBHelper {
         String query = ''' CREATE TABLE $tableName(
           category_id INTEGER PRIMARY KEY AUTOINCREMENT,
           $name TEXT NOT NULL,
-          $image BLOB NOT NULL
+          $image BLOB NOT NULL,
+          $imageId INTEGER NOT NULL
         );''';
 
         db
@@ -44,11 +46,12 @@ class DBHelper {
   Future<int?> insertData({
     required String name,
     required Uint8List image,
+    required int imageId,
   }) async {
     if (database == null) await initDatabase();
     String query =
-        "INSERT INTO $tableName(${this.name}, ${this.image}) VALUES(?, ?);";
-    List values = [name, image];
+        "INSERT INTO $tableName(${this.name}, ${this.image}, ${this.imageId}) VALUES(?, ? , ?);";
+    List values = [name, image, imageId];
     try {
       int? result = await database?.rawInsert(query, values);
       logger.i("Insert Success: ID $result");
@@ -77,5 +80,23 @@ class DBHelper {
     return result
         .map((Map<String, dynamic> e) => CategoryModel.fromMap(map: e))
         .toList();
+  }
+
+  //update Category
+  Future<int?> updateCategory({
+    required CategoryModel model,
+  }) async {
+    if (database == null) await initDatabase();
+    String query =
+        "UPDATE $tableName SET $name = ?, $image = ?, $imageId = ? WHERE category_id = ${model.id}";
+    List values = [model.name, model.image, model.imageId];
+    return await database?.rawUpdate(query, values);
+  }
+
+  //delete Category
+  Future<int?> deleteCategory({required int id}) async {
+    if (database == null) await initDatabase();
+    String query = "DELETE FROM $tableName WHERE category_id = $id";
+    return await database?.rawDelete(query);
   }
 }
