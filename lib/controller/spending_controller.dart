@@ -1,0 +1,52 @@
+import 'package:budget_tracker_app/helper/db_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../model/spending_model.dart';
+
+class SpendingController extends GetxController {
+  String? mode;
+  DateTime? date;
+  int? spendingIndex;
+  int categoryId = 0;
+
+  void setMode({String? spendMode}) {
+    mode = spendMode;
+    update();
+  }
+
+  void setDate({required DateTime spendDate}) {
+    date = spendDate;
+    update();
+  }
+
+  void setSpendingIndex({required int index, required int id}) {
+    spendingIndex = index;
+    categoryId = id;
+    update();
+  }
+
+  void resetValues() {
+    mode = null;
+    date = null;
+    spendingIndex = null;
+    categoryId = 0;
+    update();
+  }
+
+  Future<void> addSpendingData({required SpendingModel model}) async {
+    int? result = await DBHelper.dbHelper.insertSpendingData(model: model);
+    if (result != null) {
+      Get.snackbar('Spending Added', 'Spending added successfully',
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.green);
+    } else {
+      Get.snackbar('Error', 'Insertion failed',
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.red);
+    }
+    update();
+  }
+}

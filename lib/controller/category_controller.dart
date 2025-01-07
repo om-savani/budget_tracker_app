@@ -26,7 +26,7 @@ class CategoryController extends GetxController {
   Future<void> saveCategory(
       {required String name, required Uint8List image}) async {
     int? res = await DBHelper.dbHelper
-        .insertData(name: name, image: image, imageId: categoryIndex!);
+        .insertCategoryData(name: name, image: image, imageId: categoryIndex!);
     if (res != null) {
       Get.snackbar('Category Added', ' $name added successfully',
           snackPosition: SnackPosition.BOTTOM,

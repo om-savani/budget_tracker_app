@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../model/spending_model.dart';
+
 class DBHelper {
   DBHelper._();
   //singleton object
@@ -10,10 +12,21 @@ class DBHelper {
 
   Database? database;
   static Logger logger = Logger();
+
+  //Category Table Attributes
   String tableName = 'category';
   String name = 'category_name';
   String image = 'category_image';
   String imageId = 'category_image_id';
+
+  //Spending Table Attributes
+  String spendingTableName = 'spending';
+  String spendingId = 'spending_id';
+  String spendingAmount = 'spending_amount';
+  String spendingDate = 'spending_date';
+  String spendingDesc = "spending_desc";
+  String spendingMode = "spending_mode";
+  String spendingCategory = 'spending_category_id';
 
   // create database
   Future<void> initDatabase() async {
@@ -38,12 +51,28 @@ class DBHelper {
               (value) => logger.i("Table Created"),
             )
             .onError((error, _) => logger.e(error.toString()));
+
+        String query2 = '''CREATE TABLE $spendingTableName(
+          $spendingId INTEGER PRIMARY KEY AUTOINCREMENT,
+          $spendingAmount NUMERIC NOT NULL,
+          $spendingDate TEXT NOT NULL,
+          $spendingDesc TEXT NOT NULL,
+          $spendingMode TEXT NOT NULL,
+          $spendingCategory INTEGER NOT NULL
+        );''';
+
+        db
+            .execute(query2)
+            .then(
+              (value) => logger.i("Spending Table Created"),
+            )
+            .onError((error, _) => logger.e(error.toString()));
       },
     );
   }
 
   //insert data
-  Future<int?> insertData({
+  Future<int?> insertCategoryData({
     required String name,
     required Uint8List image,
     required int imageId,
@@ -60,6 +89,20 @@ class DBHelper {
       logger.e("Insert failed: $e");
       return null;
     }
+  }
+
+  Future<int?> insertSpendingData({required SpendingModel model}) async {
+    if (database == null) await initDatabase();
+    String query =
+        "INSERT INTO $spendingTableName($spendingAmount, $spendingDate, $spendingDesc, $spendingMode, $spendingCategory) VALUES(?, ?, ?, ?, ?);";
+    List values = [
+      model.amount,
+      model.date,
+      model.description,
+      model.mode,
+      model.categoryId
+    ];
+    return await database?.rawInsert(query, values);
   }
 
   //get all data
