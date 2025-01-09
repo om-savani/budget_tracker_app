@@ -1,3 +1,4 @@
+import 'package:budget_tracker_app/components/all_category_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +17,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
         title: const Text('Home'),
       ),
       body: PageView(
@@ -25,12 +29,17 @@ class HomePage extends StatelessWidget {
         },
         children: const [
           HomeComponent(),
-          CategoryComponent(),
           SpendComponent(),
+          AllCategoryComponent(),
+          CategoryComponent(),
         ],
       ),
       bottomNavigationBar: Obx(() {
         return BottomNavigationBar(
+          unselectedItemColor: Colors.white,
+          selectedItemColor: const Color(0xff5dafaa),
+          backgroundColor: Colors.black,
+          type: BottomNavigationBarType.values[0],
           currentIndex: controller.currentIndex.value,
           onTap: (index) {
             controller.changeIndex(index);
@@ -42,12 +51,14 @@ class HomePage extends StatelessWidget {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.category),
-              label: 'Category',
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.attach_money),
               label: 'Spend',
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.category), label: 'All Category'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.category),
+              label: 'Category',
             ),
           ],
         );

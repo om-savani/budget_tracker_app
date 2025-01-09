@@ -9,6 +9,11 @@ class SpendingController extends GetxController {
   DateTime? date;
   int? spendingIndex;
   int categoryId = 0;
+  Future<List<SpendingModel>>? spendingList;
+
+  SpendingController() {
+    getSpendingData();
+  }
 
   void setMode({String? spendMode}) {
     mode = spendMode;
@@ -47,6 +52,11 @@ class SpendingController extends GetxController {
           colorText: Colors.white,
           backgroundColor: Colors.red);
     }
+    update();
+  }
+
+  void getSpendingData() {
+    spendingList = DBHelper.dbHelper.getAllSpendingData();
     update();
   }
 }

@@ -14,7 +14,7 @@ class SpendingModel {
       required this.mode,
       required this.categoryId});
 
-  factory SpendingModel.fromMap(Map<String, dynamic> map) {
+  factory SpendingModel.fromMap({required Map<String, dynamic> map}) {
     return SpendingModel(
       id: map['spending_id'],
       amount: map['spending_amount'],
