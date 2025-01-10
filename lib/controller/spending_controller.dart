@@ -59,4 +59,38 @@ class SpendingController extends GetxController {
     spendingList = DBHelper.dbHelper.getAllSpendingData();
     update();
   }
+
+  void updateSpendingData({required SpendingModel model}) async {
+    int? result = await DBHelper.dbHelper.updateSpending(model: model);
+    if (result != null) {
+      getSpendingData();
+      Get.snackbar('Spending Updated', 'Spending updated successfully',
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.green);
+    } else {
+      Get.snackbar('Error', 'Update failed',
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.red);
+    }
+    update();
+  }
+
+  Future<void> deleteSpendingData({required int id}) async {
+    int? result = await DBHelper.dbHelper.deleteSpending(id: id);
+    if (result != null) {
+      getSpendingData();
+      Get.snackbar('Spending Deleted', 'Spending deleted successfully',
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.green);
+    } else {
+      Get.snackbar('Error', 'Deletion failed',
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.red);
+    }
+    update();
+  }
 }

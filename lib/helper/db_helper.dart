@@ -160,10 +160,33 @@ class DBHelper {
     return await database?.rawUpdate(query, values);
   }
 
+  //update Spending
+  Future<int?> updateSpending({
+    required SpendingModel model,
+  }) async {
+    if (database == null) await initDatabase();
+    String query =
+        "UPDATE $spendingTableName SET $spendingAmount = ?, $spendingDate = ?, $spendingDesc = ?, $spendingMode = ? WHERE spending_id = ${model.id}";
+    List values = [
+      model.amount,
+      model.date,
+      model.description,
+      model.mode,
+    ];
+    return await database?.rawUpdate(query, values);
+  }
+
   //delete Category
   Future<int?> deleteCategory({required int id}) async {
     if (database == null) await initDatabase();
     String query = "DELETE FROM $tableName WHERE category_id = $id";
+    return await database?.rawDelete(query);
+  }
+
+  //delete Spending
+  Future<int?> deleteSpending({required int id}) async {
+    if (database == null) await initDatabase();
+    String query = "DELETE FROM $spendingTableName WHERE spending_id = $id";
     return await database?.rawDelete(query);
   }
 }
