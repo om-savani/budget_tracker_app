@@ -22,7 +22,6 @@ class SpendComponent extends StatelessWidget {
       body: GetBuilder<SpendingController>(builder: (ctx) {
         return Stack(
           children: [
-            // Background image
             Positioned.fill(
               child: Image.asset(
                 'assets/images/background/app_background.png',
@@ -37,7 +36,6 @@ class SpendComponent extends StatelessWidget {
                 ),
               ),
             ),
-            // Centered Form
             Center(
               child: SingleChildScrollView(
                 child: Padding(
@@ -58,7 +56,6 @@ class SpendComponent extends StatelessWidget {
                         ),
                         const SizedBox(height: 20),
 
-                        // Input Fields Container
                         Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
@@ -240,7 +237,6 @@ class SpendComponent extends StatelessWidget {
                         ),
                         const SizedBox(height: 20),
 
-                        // Add Button
                         ElevatedButton(
                           onPressed: () {
                             if (spendKey.currentState!.validate() &&

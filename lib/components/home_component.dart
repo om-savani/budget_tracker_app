@@ -31,7 +31,6 @@ class HomeComponent extends StatelessWidget {
             ),
           ),
         ),
-        // Foreground content
         Column(
           children: [
             Expanded(
@@ -274,8 +273,6 @@ class HomeComponent extends StatelessWidget {
                                                                           ),
                                                                           const SizedBox(
                                                                               height: 16),
-
-                                                                          // Description Input
                                                                           TextFormField(
                                                                             controller:
                                                                                 descriptionController,
@@ -304,8 +301,6 @@ class HomeComponent extends StatelessWidget {
                                                                           ),
                                                                           const SizedBox(
                                                                               height: 16),
-
-                                                                          // Mode Dropdown
                                                                           Row(
                                                                             children: [
                                                                               const Text(
@@ -341,8 +336,6 @@ class HomeComponent extends StatelessWidget {
                                                                           ),
                                                                           const SizedBox(
                                                                               height: 16),
-
-                                                                          // Date Picker
                                                                           Row(
                                                                             children: [
                                                                               const Text("Date: ", style: TextStyle(color: Colors.white)),
