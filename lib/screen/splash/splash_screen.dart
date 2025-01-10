@@ -72,6 +72,7 @@ class _SplashScreenState extends State<SplashScreen>
                     TypewriterAnimatedText(
                       'ExpenseX.',
                       textStyle: const TextStyle(
+                        fontFamily: 'Bruno Ace SC',
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,

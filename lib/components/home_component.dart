@@ -1,6 +1,5 @@
 import 'dart:developer';
-
-import 'package:budget_tracker_app/components/category_component.dart';
+import 'dart:ui';
 import 'package:budget_tracker_app/components/spend_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,12 +17,17 @@ class HomeComponent extends StatelessWidget {
 
     return Stack(
       children: [
-        Container(
-          decoration: const BoxDecoration(
-            color: Colors.black,
-            image: DecorationImage(
-              image: AssetImage("assets/images/background/app_background.png"),
-              fit: BoxFit.cover, // Adjusts the image to fill the screen
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/background/app_background.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(
+              color: Colors.black.withOpacity(0.3),
             ),
           ),
         ),
@@ -53,9 +57,8 @@ class HomeComponent extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       gradient: const LinearGradient(
                                         colors: [
-                                          Color(0xFF000000), // Dark red
-                                          // Color(0xFFFFFFFF), //
-                                          Color(0xff500202), // Bright red
+                                          Color(0xFF000000),
+                                          Color(0xff500202),
                                         ],
                                         begin: Alignment.centerLeft,
                                         end: Alignment.centerRight,
@@ -95,11 +98,8 @@ class HomeComponent extends StatelessWidget {
                                               decoration: BoxDecoration(
                                                 gradient: const LinearGradient(
                                                   colors: [
-                                                    Color(
-                                                        0xFF000000), // Dark red
-                                                    // Color(0xFFFFFFFF), //
-                                                    Color(
-                                                        0xff500202), // Bright red
+                                                    Color(0xFF000000),
+                                                    Color(0xff500202),
                                                   ],
                                                   begin: Alignment.centerLeft,
                                                   end: Alignment.centerRight,
@@ -211,10 +211,15 @@ class HomeComponent extends StatelessWidget {
                                                                 .resetValues();
                                                             Get.dialog(
                                                               AlertDialog(
+                                                                shape: const RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(10.0))),
                                                                 title: const Text(
                                                                     "Update Spending"),
                                                                 content:
                                                                     Container(
+                                                                  height: 300,
                                                                   padding:
                                                                       const EdgeInsets
                                                                           .all(
@@ -233,154 +238,141 @@ class HomeComponent extends StatelessWidget {
                                                                     key:
                                                                         spendKey,
                                                                     child:
-                                                                        Column(
-                                                                      children: [
-                                                                        // Amount Input
-                                                                        TextFormField(
-                                                                          controller:
-                                                                              amountController,
-                                                                          validator: (value) => value!.isEmpty
-                                                                              ? "Required..."
-                                                                              : null,
-                                                                          keyboardType:
-                                                                              TextInputType.number,
-                                                                          style:
-                                                                              const TextStyle(color: Colors.white),
-                                                                          decoration:
-                                                                              InputDecoration(
-                                                                            labelText:
-                                                                                'Amount',
-                                                                            hintText:
-                                                                                'Enter an amount',
-                                                                            labelStyle:
+                                                                        SingleChildScrollView(
+                                                                      child:
+                                                                          Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.min,
+                                                                        children: [
+                                                                          TextFormField(
+                                                                            controller:
+                                                                                amountController,
+                                                                            validator: (value) => value!.isEmpty
+                                                                                ? "Required..."
+                                                                                : null,
+                                                                            keyboardType:
+                                                                                TextInputType.number,
+                                                                            style:
                                                                                 const TextStyle(color: Colors.white),
-                                                                            border:
-                                                                                OutlineInputBorder(
-                                                                              borderRadius: BorderRadius.circular(10),
-                                                                            ),
-                                                                            focusedBorder:
-                                                                                OutlineInputBorder(
-                                                                              borderSide: const BorderSide(color: Colors.deepPurple),
-                                                                              borderRadius: BorderRadius.circular(10),
-                                                                            ),
-                                                                            errorBorder:
-                                                                                OutlineInputBorder(
-                                                                              borderSide: const BorderSide(color: Colors.red),
-                                                                              borderRadius: BorderRadius.circular(10),
+                                                                            decoration:
+                                                                                InputDecoration(
+                                                                              labelText: 'Amount',
+                                                                              hintText: 'Enter an amount',
+                                                                              labelStyle: const TextStyle(color: Colors.white),
+                                                                              border: OutlineInputBorder(
+                                                                                borderRadius: BorderRadius.circular(10),
+                                                                              ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderSide: const BorderSide(color: Colors.deepPurple),
+                                                                                borderRadius: BorderRadius.circular(10),
+                                                                              ),
+                                                                              errorBorder: OutlineInputBorder(
+                                                                                borderSide: const BorderSide(color: Colors.red),
+                                                                                borderRadius: BorderRadius.circular(10),
+                                                                              ),
                                                                             ),
                                                                           ),
-                                                                        ),
-                                                                        const SizedBox(
-                                                                            height:
-                                                                                16),
+                                                                          const SizedBox(
+                                                                              height: 16),
 
-                                                                        // Description Input
-                                                                        TextFormField(
-                                                                          controller:
-                                                                              descriptionController,
-                                                                          validator: (value) => value!.isEmpty
-                                                                              ? "Required..."
-                                                                              : null,
-                                                                          style:
-                                                                              const TextStyle(color: Colors.white),
-                                                                          decoration:
-                                                                              InputDecoration(
-                                                                            labelText:
-                                                                                'Description',
-                                                                            hintText:
-                                                                                'Enter a description',
-                                                                            labelStyle:
+                                                                          // Description Input
+                                                                          TextFormField(
+                                                                            controller:
+                                                                                descriptionController,
+                                                                            validator: (value) => value!.isEmpty
+                                                                                ? "Required..."
+                                                                                : null,
+                                                                            style:
                                                                                 const TextStyle(color: Colors.white),
-                                                                            border:
-                                                                                OutlineInputBorder(
-                                                                              borderRadius: BorderRadius.circular(10),
-                                                                            ),
-                                                                            focusedBorder:
-                                                                                OutlineInputBorder(
-                                                                              borderSide: const BorderSide(color: Colors.deepPurple),
-                                                                              borderRadius: BorderRadius.circular(10),
-                                                                            ),
-                                                                            errorBorder:
-                                                                                OutlineInputBorder(
-                                                                              borderSide: const BorderSide(color: Colors.red),
-                                                                              borderRadius: BorderRadius.circular(10),
+                                                                            decoration:
+                                                                                InputDecoration(
+                                                                              labelText: 'Description',
+                                                                              hintText: 'Enter a description',
+                                                                              labelStyle: const TextStyle(color: Colors.white),
+                                                                              border: OutlineInputBorder(
+                                                                                borderRadius: BorderRadius.circular(10),
+                                                                              ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderSide: const BorderSide(color: Colors.deepPurple),
+                                                                                borderRadius: BorderRadius.circular(10),
+                                                                              ),
+                                                                              errorBorder: OutlineInputBorder(
+                                                                                borderSide: const BorderSide(color: Colors.red),
+                                                                                borderRadius: BorderRadius.circular(10),
+                                                                              ),
                                                                             ),
                                                                           ),
-                                                                        ),
-                                                                        const SizedBox(
-                                                                            height:
-                                                                                16),
+                                                                          const SizedBox(
+                                                                              height: 16),
 
-                                                                        // Mode Dropdown
-                                                                        Row(
-                                                                          children: [
-                                                                            const Text(
-                                                                              "Mode:",
-                                                                              style: TextStyle(color: Colors.white),
-                                                                            ),
-                                                                            const SizedBox(width: 8),
-                                                                            DropdownButton<String>(
-                                                                              dropdownColor: const Color(0xff646464),
-                                                                              value: controller.mode,
-                                                                              style: const TextStyle(color: Colors.white),
-                                                                              hint: const Text(
-                                                                                "Select Mode",
+                                                                          // Mode Dropdown
+                                                                          Row(
+                                                                            children: [
+                                                                              const Text(
+                                                                                "Mode:",
                                                                                 style: TextStyle(color: Colors.white),
                                                                               ),
-                                                                              items: const [
-                                                                                DropdownMenuItem<String>(
-                                                                                  value: "Cash",
-                                                                                  child: Text("Cash"),
-                                                                                ),
-                                                                                DropdownMenuItem<String>(
-                                                                                  value: "Card",
-                                                                                  child: Text("Card"),
-                                                                                ),
-                                                                                DropdownMenuItem<String>(
-                                                                                  value: "Digital",
-                                                                                  child: Text("Digital"),
-                                                                                ),
-                                                                              ],
-                                                                              onChanged: (value) => controller.setMode(spendMode: value),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                        const SizedBox(
-                                                                            height:
-                                                                                16),
-
-                                                                        // Date Picker
-                                                                        Row(
-                                                                          children: [
-                                                                            const Text("Date: ",
-                                                                                style: TextStyle(color: Colors.white)),
-                                                                            const SizedBox(width: 5),
-                                                                            IconButton(
-                                                                              onPressed: () async {
-                                                                                DateTime? date = await showDatePicker(
-                                                                                  context: context,
-                                                                                  firstDate: DateTime(2000),
-                                                                                  lastDate: DateTime(2026),
-                                                                                  initialDate: DateTime.now(),
-                                                                                );
-                                                                                if (date != null) {
-                                                                                  controller.setDate(spendDate: date);
-                                                                                }
-                                                                              },
-                                                                              icon: const Icon(
-                                                                                Icons.calendar_month,
-                                                                                color: Colors.white,
-                                                                              ),
-                                                                            ),
-                                                                            if (controller.date !=
-                                                                                null)
-                                                                              Text(
-                                                                                controller.date.toString().substring(0, 10),
+                                                                              const SizedBox(width: 8),
+                                                                              DropdownButton<String>(
+                                                                                dropdownColor: const Color(0xff646464),
+                                                                                value: controller.mode,
                                                                                 style: const TextStyle(color: Colors.white),
+                                                                                hint: const Text(
+                                                                                  "Select Mode",
+                                                                                  style: TextStyle(color: Colors.white),
+                                                                                ),
+                                                                                items: const [
+                                                                                  DropdownMenuItem<String>(
+                                                                                    value: "Cash",
+                                                                                    child: Text("Cash"),
+                                                                                  ),
+                                                                                  DropdownMenuItem<String>(
+                                                                                    value: "Card",
+                                                                                    child: Text("Card"),
+                                                                                  ),
+                                                                                  DropdownMenuItem<String>(
+                                                                                    value: "Digital",
+                                                                                    child: Text("Digital"),
+                                                                                  ),
+                                                                                ],
+                                                                                onChanged: (value) => controller.setMode(spendMode: value),
                                                                               ),
-                                                                          ],
-                                                                        ),
-                                                                      ],
+                                                                            ],
+                                                                          ),
+                                                                          const SizedBox(
+                                                                              height: 16),
+
+                                                                          // Date Picker
+                                                                          Row(
+                                                                            children: [
+                                                                              const Text("Date: ", style: TextStyle(color: Colors.white)),
+                                                                              const SizedBox(width: 5),
+                                                                              IconButton(
+                                                                                onPressed: () async {
+                                                                                  DateTime? date = await showDatePicker(
+                                                                                    context: context,
+                                                                                    firstDate: DateTime(2000),
+                                                                                    lastDate: DateTime(2026),
+                                                                                    initialDate: DateTime.now(),
+                                                                                  );
+                                                                                  if (date != null) {
+                                                                                    controller.setDate(spendDate: date);
+                                                                                  }
+                                                                                },
+                                                                                icon: const Icon(
+                                                                                  Icons.calendar_month,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                              if (controller.date != null)
+                                                                                Text(
+                                                                                  controller.date.toString().substring(0, 10),
+                                                                                  style: const TextStyle(color: Colors.white),
+                                                                                ),
+                                                                            ],
+                                                                          ),
+                                                                        ],
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -508,7 +500,7 @@ class HomeComponent extends StatelessWidget {
                             )
                           : const Center(
                               child: Text(
-                                "No Category Available",
+                                "No Expenses Available",
                                 style: TextStyle(color: Colors.white),
                               ),
                             );

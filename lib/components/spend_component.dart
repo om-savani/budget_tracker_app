@@ -49,7 +49,7 @@ class SpendComponent extends StatelessWidget {
                       children: [
                         // Title
                         const Text(
-                          'Spending',
+                          'Expense',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -67,7 +67,6 @@ class SpendComponent extends StatelessWidget {
                           ),
                           child: Column(
                             children: [
-                              // Amount Input
                               TextFormField(
                                 controller: amountController,
                                 validator: (value) =>
@@ -95,8 +94,6 @@ class SpendComponent extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 16),
-
-                              // Description Input
                               TextFormField(
                                 controller: descriptionController,
                                 validator: (value) =>
@@ -123,8 +120,6 @@ class SpendComponent extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 16),
-
-                              // Mode Dropdown
                               Row(
                                 children: [
                                   const Text(
@@ -160,8 +155,6 @@ class SpendComponent extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 16),
-
-                              // Date Picker
                               Row(
                                 children: [
                                   const Text("Date: ",
@@ -196,8 +189,7 @@ class SpendComponent extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               SizedBox(
-                                height:
-                                    100, // Set a fixed height as per your design
+                                height: 100,
                                 child: FutureBuilder(
                                   future: DBHelper.dbHelper.getAllData(),
                                   builder: (context, snapshot) {
@@ -224,7 +216,7 @@ class SpendComponent extends StatelessWidget {
                                                   color: controller
                                                               .spendingIndex ==
                                                           index
-                                                      ? Colors.deepPurple
+                                                      ? Colors.white
                                                       : Colors.transparent,
                                                 ),
                                                 image: DecorationImage(

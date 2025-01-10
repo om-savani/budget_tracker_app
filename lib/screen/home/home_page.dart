@@ -9,7 +9,7 @@ import '../../controller/navigation_controller.dart';
 
 class HomePage extends StatelessWidget {
   final NavigationController controller = Get.put(NavigationController());
-  final PageController pageController = PageController();
+  final PageController pageController = PageController(initialPage: 0);
 
   HomePage({super.key});
 
@@ -20,12 +20,13 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: const Text('Home'),
+        title: const Text('ExpenseX'),
       ),
       body: PageView(
         controller: pageController,
         onPageChanged: (index) {
           controller.changeIndex(index);
+          pageController.jumpToPage(index);
         },
         children: const [
           HomeComponent(),
